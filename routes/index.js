@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var path = require('path');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'New Title' });
@@ -138,24 +138,30 @@ router.get('/contest/vacation-photo', function(req, res) {
         month: now.getmonth()
     });
 });
+
+
 router.post('/contest/vacation-photo/:year/:month', function(req, res) {
     var form = new formidable.IncomingForm();
 
     form.parse(req, function(err, fields, files) {
-
-        if (err) {
-            return res.redirect(303, '/error');
-        }
-        var oldpath = files.photo.path;
-        var newpath = '/Users/dingjie/Documents/NodeJs/testproject/public/images/' + files.photo.name;
-        fs.rename(oldpath, newpath, function(err) {
-            if (err) throw err;
+        if (files.photo.name !== '') {
+            if (err) {
+                return res.redirect(303, '/error');
+            }
+            var oldpath = files.photo.path;
+            var newpath = path.dirname(__dirname) + '/LoadImage/' + files.photo.name;
+            console.log(newpath);
+            fs.rename(oldpath, newpath, function(err) {
+                if (err) throw err;
+                return res.redirect(303, '/love');
+            });
+            console.log('received fields: ');
+            console.log(fields);
+            console.log('received files: ');
+            console.log(files);
+        } else {
             return res.redirect(303, '/love');
-        });
-        console.log('received fields: ');
-        console.log(fields);
-        console.log('received files: ');
-        console.log(files);
+        }
 
     });
 });

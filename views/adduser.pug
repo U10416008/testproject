@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title #{title}
+    link(rel='stylesheet' href='/stylesheets/style.css')
+  
+  body
+    h1 #{title}
+
+    form(action='/adduser', method='POST')
+      p 
+        | Name: 
+        input(type='text' ,name='name' ,placeholder='Enter Username')
+        br
+        | Address: 
+        input(type='text' ,name='address' ,placeholder='Enter Address')
+        input(type='submit',value='Submit')

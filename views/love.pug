@@ -1,0 +1,36 @@
+doctype html
+html
+    
+
+    head
+        meta(charset='utf-8')
+        title   #{ title }愛的小窩
+        link(rel='stylesheet', href='/stylesheets/style.css')
+
+
+    body
+
+    h1 與寶貝的專屬小窩
+    form(class="formUpload" enctype="multipart/form-data" method="POST" action="/contest/vacation-photo/{year}/{month}")
+        div(class="formContainer")
+            h2 Upload a vacation photo for contest!
+            input(
+                type="hidden" 
+                name="_csrf" 
+                value=""
+            )
+            ul
+                li 
+                    label Name: 
+                    input(type="text" name="name")
+                li 
+                    label File: 
+                    input(type="file" name="photo" accept="image/*")
+                
+            
+            input(type="submit" value="submit")
+        
+    
+    p 照片
+
+

@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title User List
+    link(rel='stylesheet' href='/stylesheets/style.css')
+ 
+  body
+    h1 User List
+ 
+    ul
+      each zf in data
+        span  #{zf.name}: #{zf.address}
+        br
+      
+      
+      
+    
+ 
