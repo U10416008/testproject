@@ -1,14 +1,79 @@
 doctype html
+include ../node_modules/pug-bootstrap/_bootstrap.pug
 html
   head
     meta(charset='utf-8')
+    meta(name = 'viewport',content='width=device-width, initial-scale=1')
     title #{title}
-    link(rel='stylesheet' ,href='/stylesheets/style.css' )
-  
-  body
-    
+    link(rel='stylesheet', href='/stylesheets/style.css')
+body
+  .container-fluid
     h1 #{title}
     p Welcome to #{title}
+    +navbar("Paradise","dropdown_menu")
+      +nav_item("#","active") Home
+      +nav_item_dropdown("#")(label="About")
+        +nav_item("#school") School
+        +nav_item("#profile") Profile
+      
+      +nav_item_dropdown("#")(label="Learning")
+        +nav_header Java & Kotlin
+        +nav_item("#android") Android Studio
+        +nav_divider
+        +nav_header  C & C++
+        +nav_item("#learnImage") Image Processing
+        +nav_divider
+        +nav_header Python
+        +nav_item("#learnML") Mechine Learning
+        +nav_item("#learnAI") Artificial Intelligence
+        +nav_divider 
+        +nav_header Javascripts & NodeJS
+        +nav_item("#server") Dynamic Web
+    
+    +carousel("myCarousel",[{image:"../images/love_background.jpg",h1:"Example headline",
+      p:"",
+      button:{caption:"Sign up today",url:"#"}},
+      {image:"../images/love_background.jpg",h1:"Another example headline",
+      p:"",
+      button:{caption:"Learn more",url:"#"}},	
+      {image:"../images/love_background.jpg",h1:"One more for good measure.",
+      p:"",
+      button:{caption:"Browse gallery",url:"#"}}])
+    br
+    +accordion("sample")
+      +accordion-item-primary("School","sample","true")
+        
+        a(href="http://www.utaipei.edu.tw" id = "school") University of Taipei
+        br
+        a(href="https://www.tnfsh.tn.edu.tw/") Tainan First Senior High School
+        br
+        a(href="http://www.fhjh.tn.edu.tw") Tainan Municipal Fusing Junior High School
+        br
+        a(href="http://www.fhjhs.tp.edu.tw") Fanghe Junior High School
+
+      br
+      +accordion-item-primary("Profile","sample")
+        a(href="https://www.facebook.com/ding.bao.77" id = "profile") My Facebook
+        br
+        a(href="mailto:cp4n3gj9448@gmail.com") My Gmail
+      
+    +panel-primary("Java & Kotline")
+      +panel-primary("Android Studio")
+        h2(id='android') Image Processing
+    +panel-primary("C & C++")
+      +panel-primary("Image Processing")
+        h2(id='learnImage') Image Processing
+      
+    +panel-primary("Python")
+      +panel-primary("Mechine Learning")
+        h2(id='learnML') mechine learning
+      +panel-primary("Artificial Intelligence")
+        h2(id='learnAI') Artificial Intelligence
+    +panel-primary("Javascripts & NodeJS")
+      +panel-primary("Javascripts & NodeJS")
+        h2(id='server') Javascripts & NodeJS
+    script(src="javascripts/index.js")
+      
     
   
 

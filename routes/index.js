@@ -3,7 +3,7 @@ var router = express.Router();
 var path = require('path');
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'New Title' });
+    res.render('index', { title: 'Ding Ding Blog' });
 });
 router.get('/userlist', function(req, res) {
     var db = req.db;
