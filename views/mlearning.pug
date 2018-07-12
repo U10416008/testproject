@@ -1,0 +1,132 @@
+doctype html
+include ../node_modules/pug-bootstrap/_bootstrap.pug
+html
+    head
+        meta(charset='utf-8')
+        meta(name = 'viewport',content='width=device-width, initial-scale=1')
+        title #{title}
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(src="javascripts/mlearning.js")
+        script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
+        script(type="text/javascript").
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+body 
+    div.container-fluid
+        h1 #{title}
+        +navbar("Machine Learnig","dropdown_menu")
+            +nav_item("/","active") Home
+            +nav_item_dropdown("#")(label="Foundation")
+                +nav_item("#loss_fun") Loss Function
+                +nav_item("#opt") Optimization
+                +nav_item("#learnImage") Generalization
+                +nav_item("#learnImage") Regularization
+                +nav_item("#learnImage") Validation
+            +nav_item_dropdown("#")(label="Technique")
+        br
+        +tab-list(["Loss","Optimization","Generalization","Regularization","Validation"],0)
+            +tab("Loss","active")
+                h1 Loss Function
+                +accordion("sample")
+                    +accordion-item-primary("Zero-One Error","sample","true")
+                        p 0/1 error = [sign(wx) != 1]
+                    +accordion-item-primary("Square Error","sample")
+                        p square error = (wx - 1) ^ 2
+                    +accordion-item-primary("Log Error","sample")
+                        p log error = ln( 1 + exp( -wx ) )
+        
+            +tab("Optimization")
+                h1 Optimization
+                +accordion("sample1")
+                    +accordion-item-primary("Zero-One Error Optmization","sample1","true")
+                        p 0/1 error = [sign(wx) != 1]
+                    +accordion-item-primary("Square Error Optmization","sample1")
+                        div(class = "devsite-table-wrapper")
+                            
+                                
+                            table
+                                tbody
+                                    tr
+                                        td(style="vertical-align: middle; font-size: large;") learning rate
+                                         
+                                        td 
+                                            input(type = "range",class="controls",id="slider",min="0.01",max="1",step="0.01",oninput="showVal(this.value)",onchange="showVal(this.value)" )
+                                            
+                                        td
+                                            div(class="controls statusValue")
+                                                span(id="eta") 0.01
+                                    tr       
+                                    
+                                        td(style="vertical-align: middle; font-size: large;") next step
+                                         
+                                        td 
+                                            
+                                            button(onclick="step(1);") next
+                                        td
+                                            div(class="controls statusValue")
+                                                span(id="iter") 0
+                                    
+                                    tr
+                                        td(style="vertical-align: middle; font-size: large;") reset
+                                         
+                                        td 
+                                            button(onclick="reset(1);") Reset
+                                    
+                                        td
+                                            div(class="controls statusValue")
+                                                span(id="num") 0
+                            div(id="piechart" style="width: 900px; height: 500px;")
+                            
+                    
+                            
+                                        
+                    +accordion-item-primary("Log Error Optmization","sample1")
+                        p log error = ln( 1 + exp( -wx ) )
+                        div(class = "devsite-table-wrapper")
+                            
+                                
+                            table
+                                tbody
+                                    tr
+                                        td(style="vertical-align: middle; font-size: large;") learning rate
+                                         
+                                        td 
+                                            input(type = "range",class="controls",id="slider1",min="0.01",max="1",step="0.01",oninput="showVal1(this.value)",onchange="showVal1(this.value)" )
+                                        td
+                                            div(class="controls statusValue")
+                                                span(id="eta1") 0.01
+                                    tr       
+                                    
+                                        td(style="vertical-align: middle; font-size: large;") next step
+                                         
+                                        td 
+                                            button(onclick="step(0);") next
+                                        td
+                                            div(class="controls statusValue")
+                                                span(id="iter1") 0
+                                    
+                                    tr
+                                        td(style="vertical-align: middle; font-size: large;") reset
+                                         
+                                        td 
+                                            button(onclick="reset(0);") Reset
+                                    
+                                        td
+                                            div(class="controls statusValue")
+                                                span(id="num1") 0
+                            div(id="log" style="width: 900px; height: 500px;")
+                            
+                            
+                
+            +tab("Generalization")
+                h1 Generalization
+                p This is Messages tab
+            +tab("Regularization")
+                h1 Regularization
+                p This is Settings tab
+            +tab("Validation")
+                h1 Validation
+                p This is Settings tab
+
+
+

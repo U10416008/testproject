@@ -10,12 +10,18 @@ body
   div.container-fluid
     h1 #{title}
     +navbar("Paradise","dropdown_menu")
-      +nav_item("#","active") Home
+      +nav_item("/","active") Home
       +nav_item_dropdown("#")(label="About")
         +nav_item("#about") School
         +nav_item("#about") Profile
       
       +nav_item_dropdown("#")(label="Learning")
+        +nav_item("/mlearning") Mechine Learning
+        +nav_divider
+        +nav_item("/datastructure") Data Structure
+        +nav_divider
+        +nav_item("/discrete") Discrete Mathematics
+        +nav_divider
         +nav_header Java & Kotlin
         +nav_item("#android") Android Studio
         +nav_divider
@@ -28,6 +34,7 @@ body
         +nav_divider 
         +nav_header Javascripts & NodeJS
         +nav_item("#server") Dynamic Web
+
     
     +carousel("myCarousel",[{image:"../images/love_background.jpg",h1:"Example headline",
       p:"",
@@ -86,7 +93,8 @@ body
     +panel-primary("Javascripts & NodeJS")
       +panel-primary("Javascripts & NodeJS")
         h2(id='server') Javascripts & NodeJS
-    script(src="javascripts/index.js")
+    
+    
       
     
   

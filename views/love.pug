@@ -1,40 +1,72 @@
 doctype html
+include ../node_modules/pug-bootstrap/_bootstrap.pug
 html
     head
         meta(charset='utf-8')
-        title   #{ title }愛的小窩
-        link(rel='stylesheet' ,href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm',crossorigin='anonymous' )
+        meta(name = 'viewport',content='width=device-width, initial-scale=1')
+        title   #{ title }
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous")
+        script(defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous")
         
     body
-        nav(class='navbar navbar-expand-sm bg-dark navbar-light')
-            ul(class='nav nav-tabs nav-fill')
-                li(class='nav-item')
-                    a(class='nav-link' onclick='link1()')|Link1
-                li(class='nav-item')
-                    a(class='nav-link' href='#')|Link2
-                li(class='nav-item')
-                    a(class='nav-link' href='#')|Link3
+
+        +navbar("Paradise","dropdown_menu")
+            +nav_item("/","active") Home
+            +nav_item_dropdown("#")(label="About")
+                +nav_item("#about") School
+                +nav_item("#about") Profile
+            
+            +nav_item_dropdown("#")(label="Learning")
+                +nav_item("/mlearning") Mechine Learning
+                +nav_divider
+                +nav_header Java & Kotlin
+                +nav_item("#android") Android Studio
+                +nav_divider
+                +nav_header  C & C++
+                +nav_item("#learnImage") Image Processing
+                +nav_divider
+                +nav_header Python
+                +nav_item("#learnML") Mechine Learning
+                +nav_item("#learnAI") Artificial Intelligence
+                +nav_divider 
+                +nav_header Javascripts & NodeJS
+                +nav_item("#server") Dynamic Web
         script(src='javascripts/love.js')
             
-        h1(id="love") 與寶貝的專屬小窩
-        form(class="formUpload" enctype="multipart/form-data" method="POST" action="/contest/vacation-photo/{year}/{month}")
-            div(class="formContainer")
-                h2 Upload a vacation photo for contest!
-                input(
-                    type="hidden" 
-                    name="_csrf" 
-                    value=""
-                )
-                ul
-                    li 
-                        label Name: 
-                        input(type="text" name="name")
-                    li 
-                        label File: 
-                        input(type="file" name="photo" accept="image/*")            
-                input(type="submit" value="submit")
+        //h1(id="love") 與寶貝的專屬小窩
+        h2 Upload a photo!
+        div(class = "row" id='formContain' style="width=100%")
+            div(class="col-sm-6")
+                form(class="formUpload" enctype="multipart/form-data" action='/contest/vacation-photo/{year}/{month}', method='post')
+                    div(class="formContainer" )
+                        
+                        |Name:        
+                        +input-simple("text","txtName",name = "name",value = "name")
+                        br
+                        |File:
+                        input(type="file" name="photo" accept="image/*" onchange="document.getElementById('txtName').value=this.value.split('fakepath')[1]")
+                        +submit("Submit")
+        h2 Album
+        - var i = 0 
+            div(class="row")
+                each img in files
+                    div(class="col-sm-2")
+                        div(class="imagetable" action='/delete/{year}/{month}' method='post')
+                            +img-responsive-center("/LoadImage/"+img.name,"Circle image")
+                            i(class="fas fa-minus" id="minus"+img.name onclick="document.getElementById('txtName').value='"+img.name+"'")                             
+                    -i++
+                    -if(i%6==0){
+                        br
+                        div(class="row")
+                    -}
+        div(class="row")
+            div(class="col-sm-6")
+                
+            div(class="col-sm-6")
+        
             
         
-        p 照片
+        
 
 

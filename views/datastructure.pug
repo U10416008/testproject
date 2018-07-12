@@ -1,0 +1,54 @@
+doctype html
+include ../node_modules/pug-bootstrap/_bootstrap.pug
+html
+    head
+        meta(charset='utf-8')
+        meta(name = 'viewport',content='width=device-width, initial-scale=1')
+        title #{title}
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        
+body 
+    div.container-fluid
+        h1 #{title}
+        +navbar("Data Structure","dropdown_menu")
+            +nav_item("/","active") Home
+            +nav_item_dropdown("#")(label="Sort")
+                +nav_item("#bubble") Bubble Sort
+                +nav_item("#selection") Selection Sort
+                +nav_item("#insertion") Insertion Sort
+                +nav_item("#quick") Quick Sort
+                +nav_item("#merge") Merge Sort
+            +nav_item_dropdown("#")(label="LinkList")
+                +nav_item("#single") Single 
+                +nav_item("#double") Double
+                +nav_item("#circular") Circular Single
+                +nav_item("#circular2") Circular Double
+            +nav_item_dropdown("#")(label="BinaryTree")
+                +nav_item("#binary") Binary 
+                
+        br
+
+        h2 Sort
+        +tab-list(["Bubble","Selection","Insertion","Quick","Merge"],0)
+            +tab("Bubble","active")
+                h1 Bubble Sort
+
+        
+            +tab("Selection")
+                h1 Selection Sort
+            +tab("Insertion")
+                h1 Insertion Sort 
+            +tab("Quick")
+                h1 Quick Sort
+                
+            +tab("Merge")
+                h1 Merge Sort
+                
+        
+        br 
+        hr
+        br
+        h2 LinkList
+
+
+

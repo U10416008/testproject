@@ -31,6 +31,9 @@ app.use(function(req, res, next) {
     req.db = db;
     next();
 });
+app.enable('strict routing');
+
+
 app.use('/', index);
 app.use('/users', users);
 app.get('/about', about);
