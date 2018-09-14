@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title #{title}
+    link(rel='stylesheet' href='/stylesheets/style.css')
+    
+  body
+    h1 #{title}
+    
+    form(action='/vocabulary', method='POST')
+        | Vocabulary: 
+        input(type='text' ,name='vocabulary' ,placeholder='Enter Vocabulary')
+        input.form-control(type='hidden', name='id', value=user)
+        input(type='submit',value='Submit')
+    p #{valid}
+    h1 English Note
+    p Hello #{user}
+    
+    table
+        thead
+            tr: th English Phrase
+        tbody
+            tr 
+                td(id="phrase_title") Phrase
+                td(id="time_title") Time ( YYYY:MM:DD:HH:MM:SS)
+            each zf in data
+                tr
+                    td  #{zf.vocabulary} 
+                    td #{zf.time}
+            

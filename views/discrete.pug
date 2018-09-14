@@ -6,4 +6,77 @@ html
         meta(name = 'viewport',content='width=device-width, initial-scale=1')
         title #{title}
         link(rel='stylesheet', href='/stylesheets/style.css')
-        script(src="javascripts/mlearning.js")
+        script(src ="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+        script(src="javascripts/discrete.js")
+    body
+        h1 #{title}
+        +navbar("Discrete Mathematics","dropdown_menu")
+            +nav_item("/","active") Home
+
+        br
+        +tab-list(["Basic","Relation","P-C","Generating","Recursive","Graph"],0)
+            +tab("Basic","active")
+                +accordion("sample")
+                    +accordion-item-primary("Set 集合","sample","true")
+                        h4(id = "h_set_1") 1 - 1 集合
+                        div(id = "set_1")
+                            h5 N = {0, 1, 2, ...} 表示所有自然數的集合
+                            h5 Z 表示所有整數的集合
+                            h5 Z+ 表示所有正整數的集合
+                            h5 Q 表示所有有理數的集合
+                            h5 Q+ 表示所有正有理數的集合
+                            h5 R 表示所有實數的集合
+                            h5 C 表示所有複數的集合
+                            h5 Z* Q* R* 為不包含0的集合
+                        h4(id = "h_set_2") 1 - 2 子集合
+                        div(id = "set_2")
+                            h5 有兩個集合 A、B ，如果集合 A 的元素都在集合B中， A 就是 B 的子集合(A ⊆ B)
+                            h5 如果 A 不是 B ， A 為 B 的 真子集
+                        h4(id = "h_set_3") 1 - 3 集合的運算
+                        div(id = "set_3")
+                            h5 A ∩ B  = {x|x ∈ A and x ∈ B}
+                            h5 A ∪ B  = {x|x ∈ A or x ∈ B}
+                            h5 A - B  = {x|x ∈ A and x ∉ B}
+                            h5 A'     = {x|x ∈ U and x ∉ A}
+                            h5 A ⊕ B  = (A ∪ B) - (A ∩ B) 
+                    +accordion-item-primary("Mathematical Induction","sample")
+                        p square error = (wx - 1) ^ 2
+                    +accordion-item-primary("Number Theory","sample")
+                        p log error = ln( 1 + exp( -wx ) )
+                
+
+            +tab("Relation")
+            +tab("P-C")
+            +tab("Generating")
+            +tab("Recursive")
+            +tab("Graph")
+                +accordion("sample")
+                    +accordion-item-primary("圖的種類及術語","sample","true")
+                        h2 定義
+
+                        div(id = "mean6") 
+                            h4 有向圖(directed graph) 
+                            div(id = "graph1")
+                                h5 E ⊆ V × V 則稱 G = ( V , E ) 為一有向圖
+                                h5 V 點集
+                                h5 E 邊集
+                                h5 v ∈ V 一個點
+                                h5 (a , b) ∈ E (a,b有順序) ， 一個有向邊
+                            h4 有向圖(directed graph) 
+                            div(id = "graph2")
+                                h5 E ⊆ V × V 則稱 G = ( V , E ) 為一有向圖
+                                h5 V 點集
+                                h5 E 邊集
+                                h5 v ∈ V 一個點
+                                h5 (a , b) ∈ E (a,b有順序) ， 一個有向邊
+                            h4 無向圖(undirected graph) 
+                            div(id = "graph3")
+                                h5 E ⊆ V × V 則稱 G = ( V , E ) 為一有向圖
+                                h5 V 點集
+                                h5 E 邊集
+                                h5 v ∈ V 一個點
+                                h5 (a , b) ∈ E (a,b有順序) ， 一個有向邊
+
+                        h2 定理
+                            div(id = "theory6")
+

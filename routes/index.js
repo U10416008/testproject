@@ -3,6 +3,8 @@ var router = express.Router();
 var path = require('path');
 var photosJson = require('./photodb.json');
 var Gallery = require('express-photo-gallery');
+var valid = "";
+var username = "";
 /* GET home page. */
 router.get('/', function(req, res, next) {
     console.log('index')
@@ -38,6 +40,7 @@ router.get('/userlist', function(req, res) {
             })
 
         })
+
         console.log(data);
         res.render('userlist.pug', {
             "data": data.list
@@ -76,6 +79,160 @@ router.post('/adduser', function(req, res) {
         }
     });
 });
+router.get('/vocabulary', function(req, res) {
+    var db = req.db;
+    var collection = db.get('vocabulary');
+    collection.find({}, {}, function(e, docs) {
+        var data = {
+            list: [{
+                    user_name: "",
+                    vocabulary: "",
+                    time: ""
+                }
+
+            ]
+        };
+        var user_name = "";
+        var vocabulary;
+        var time;
+        var objKey = Object.keys(docs);
+        objKey.forEach(function(objectid) {
+            var items = Object.keys(docs[objectid]);
+            items.forEach(function(itemkey) {
+                var itemvalue = docs[objectid][itemkey];
+                //console.log(objectid + ': ' + itemkey + ' = ' + itemvalue);
+                if (itemkey == "user_name") {
+                    user_name = itemvalue;
+                }
+                if (user_name == req.session.user_name) {
+                    if (itemkey == "vocabulary") {
+                        vocabulary = itemvalue;
+                    }
+                    if (itemkey == "time") {
+                        time = itemvalue;
+                        data.list.push({ "vocabulary": vocabulary, "time": time })
+                    }
+                }
+            })
+
+        })
+        data.list.sort(function(a, b) { return a.vocabulary.toLowerCase() > b.vocabulary.toLowerCase() });
+        console.log(data.list);
+        res.render('my_vocabulary.pug', {
+            "title": "My Daily English",
+            "valid": valid,
+            "data": data.list,
+            "user": req.session.user_name
+        });
+        valid = "";
+    });
+});
+router.post('/vocabulary', function(req, res) {
+
+    // Set our internal DB variable
+    var db = req.db;
+    console.log(res.locals);
+    // Get our form values. These rely on the "name" attributes
+    var user_name = req.session.user_name;
+    var vocabulary = req.body.vocabulary;
+    var time = getDateTime();
+
+    // Set our collection
+    var collection = db.get('vocabulary');
+
+    // Submit to the DB
+    if (user_name == null || vocabulary == "" || !/[\s|a-zA-Z]+$/.test(vocabulary)) {
+        valid = "please enter the valid word"
+        res.location("vocabulary");
+        res.redirect("/vocabulary");
+    } else {
+        collection.insert({
+            "user_name": user_name,
+            "vocabulary": vocabulary,
+            "time": time
+        }, function(err, doc) {
+            if (err) {
+                // If it failed, return error
+                res.send("There was a problem adding the information to the database.");
+            } else {
+                // If it worked, set the header so the address bar doesn't still say /adduser
+                res.location("vocabulary");
+                // And forward to success page
+                res.redirect("/vocabulary");
+            }
+        });
+    }
+});
+router.get('/login', function(req, res) {
+    res.render('login.pug', { user_name: "", title: 'Add New User' });
+});
+router.post('/login', function(req, res) {
+    var db = req.db;
+    var collection = db.get('user_info');
+
+    console.log(res.locals.user_name);
+    res.locals.user_name = req.body.user_name;
+    console.log(res.locals.user_name);
+
+    req.session.user_name = res.locals.user_name;
+    var password = req.body.user_secret;
+    var time = getDateTime();
+    collection.findOne({ "username": username }, function(err, doc) {
+        if (err) res.send("Hello find");
+        if (doc == null) {
+            console.log(doc);
+            collection.insert({
+                "username": username,
+                "password": password,
+                "create_time": time
+            }, function(err, doc) {
+                if (err) {
+                    // If it failed, return error
+                    res.send("There was a problem adding the information to the database.");
+                } else {
+                    // If it worked, set the header so the address bar doesn't still say /adduser
+                    //res.location("/vocabulary");
+                    // And forward to success page
+                    res.redirect("/vocabulary");
+                }
+            });
+        } else {
+            console.log(doc);
+            // If it worked, set the header so the address bar doesn't still say /adduser
+
+            // And forward to success page
+            res.redirect("/vocabulary");
+        }
+    });
+
+
+
+});
+
+function getDateTime() {
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+
+}
 router.get('/love', function(req, res) {
     var filelist = {
         list: [{
@@ -142,10 +299,6 @@ router.post('/picture', function(req, res) {
 router.get('/mlearning', function(req, res, next) {
     console.log('machine learning')
     res.render('mlearning.pug', { title: 'Ding Ding Love ML ' });
-});
-router.get('/datastructure', function(req, res, next) {
-    console.log('data structure')
-    res.render('datastructure.pug', { title: 'Ding Ding Learn Data Structure ' });
 });
 router.get('/discrete', function(req, res, next) {
     console.log('Discrete Mathematics')

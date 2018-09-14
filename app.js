@@ -1,11 +1,12 @@
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var lessMiddleware = require('less-middleware');
-
+const MongoStore = require('connect-mongo')(session);
 var index = require('./routes/index');
 var users = require('./routes/users');
 var about = require('./routes/about');
@@ -28,9 +29,19 @@ app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
+
     req.db = db;
     next();
 });
+app.use(session({
+
+    secret: 'recommand 128 bytes random string',
+    store: new MongoStore({ url: 'mongodb://localhost:27017/sessiondb' }),
+    resave: true,
+    saveUninitialized: true,
+    cookie: { maxAge: 600 * 1000 } //10分鐘到期
+
+}));
 app.enable('strict routing');
 
 
@@ -48,6 +59,7 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
     // set locals, only providing error in development
+
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
@@ -55,6 +67,7 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);

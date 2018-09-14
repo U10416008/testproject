@@ -120,7 +120,46 @@ body
                 
             +tab("Generalization")
                 h1 Generalization
-                p This is Messages tab
+                +accordion("sample1")
+                    +accordion-item-primary("Generalization","sample1","true")
+                        div(id = "intro_gen")
+                            p Generalization 指的是一個模型的預測能力，假設有一筆資料如下
+                            br
+                            table
+                                tbody
+                                    tr
+                                        td(style="vertical-align: middle; font-size: large;") X 
+
+                                        td 2 
+                                        td 4
+                                        td 5
+                                        td 7
+                                        td 10
+                                    tr
+                                        td(style="vertical-align: middle; font-size: large;") Y 
+
+                                        td 3 
+                                        td 2
+                                        td 6
+                                        td 4
+                                        td 10
+                                    
+                                    tr 
+                                        td(style="vertical-align: middle; font-size: large;") label 
+                                        td(style="color: blue") Ｏ 
+                                        td(style="color: red") Ｘ
+                                        td(style="color: blue") Ｏ
+                                        td(style="color: red") Ｘ
+                                        td(style="color: blue") Ｏ
+                            div(id="gen_graph" style="width: 900px; height: 500px;")
+
+                                        
+                                              
+                    +accordion-item-primary("Feature Transformation","sample1")
+                        div(id = "feature_div")
+                    
+                    +accordion-item-primary("Overfitting","sample1")
+                
             +tab("Regularization")
                 h1 Regularization
                 p This is Settings tab

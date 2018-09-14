@@ -19,6 +19,7 @@ var chart_log;
 
 var data;
 var data_log;
+var data_gen;
 var x = [
     ['x', 'y', { 'type': 'string', 'role': 'style' }]
 ];
@@ -31,6 +32,7 @@ var x_log = [
 for (i = 0; i < 1000; i++) {
     x_log.push([(i - 500) / 100, logistic((i - 500) / 100), null]);
 }
+
 
 var options = {
     title: 'Mean Square Error',
@@ -117,6 +119,47 @@ function drawChart() {
     data_log = google.visualization.arrayToDataTable(x_log);
     chart_log = new google.visualization.LineChart(document.getElementById('log'))
     chart_log.draw(data_log, options_log);
+
+    data_gen = google.visualization.arrayToDataTable([
+        ['X', 'YB', 'YR', 'Line'],
+        [0, null, null, 0],
+        [2, 3, null, null],
+        [4, null, 2, null],
+        [5, 6, null, null],
+        [7, null, 4, null],
+        [9, 10, null, null],
+        [15, null, null, 15],
+
+    ]);
+    var options_gen = {
+        title: 'X , Y',
+        hAxis: { title: 'X', minValue: 0, maxValue: 15 },
+        vAxis: { title: 'Y', minValue: 0, maxValue: 15 },
+        legend: 'none',
+        interpolateNulls: true,
+        curveType: 'function',
+        series: {
+            0: {
+
+                color: 'blue',
+                visibleInLegend: false
+
+            },
+            1: {
+
+                color: 'red',
+                visibleInLegend: false
+
+            },
+            2: { lineWidth: 1, pointSize: 0 }
+        },
+        'width': 640,
+        'height': 480,
+
+    };
+    var chart_gen = new google.visualization.ScatterChart(document.getElementById('gen_graph'));
+
+    chart_gen.draw(data_gen, options_gen);
 }
 
 function derivative_logistic(x) {
